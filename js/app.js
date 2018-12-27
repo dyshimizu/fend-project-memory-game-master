@@ -1,14 +1,90 @@
-/*
- * Create a list that holds all of your cards
- */
+/**
+ * Disable elements click event
+ * @function
+  */
+ function disableClick(){
+    $('.deck .card').off('click');
+    $('.restart').off('click');
+};
 
+/**
+ * Enable elements click event
+ * @function
+  */
+function enableClick(){
+    $('.deck .card').on('click',logic)
+    $('.restart').click(resetGame);
+};
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
+/**
+ * Convert sec to HH:MM:SS format
+ * @function
  */
+function secToTimeFormat(secs) {
+    hours = Math.floor(secs / 3600);
+    secs %= 3600;
+    minutes = Math.floor(secs / 60);
+    seconds = secs % 60;
+
+    minutes = String(minutes).padStart(2, "0");
+    hours = String(hours).padStart(2, "0");
+    seconds = String(seconds).padStart(2, "0");
+
+    return hours + ':' + minutes + ':' + seconds;
+};
+
+/**
+ * Show timer
+ * @function
+ */
+function showTimer(){
+    var aux = new Date();
+    var taux = Math.round((aux - startTime)/1000);
+    $('.timer').text( secToTimeFormat(taux) );
+};
+
+/**
+ * Start timer
+ * @function
+ */
+function startTimer(){
+    startTime = new Date();
+    myTime = setInterval(showTimer,1000);
+};
+
+/**
+ * Reset timer
+ * @function
+ */
+function resetTimer(){
+    $('.timer').text( '00:00:00' );
+    clearInterval(myTime);
+    startTime = endTime = '';
+};
+
+/**
+ * Check if timer is running
+ * @function
+ * @returns {boolean}
+ */
+function isTimerRunning(){
+    if(startTime == ''){
+        return false;
+    }else{
+        return true;
+    }
+};
+
+/**
+ * Get the diff timer in seconds
+ * @function
+ * @returns {string}
+ */
+function getTimer(){
+    endTime = new Date();
+    var timeDiff = (endTime - startTime)/1000;
+    return Math.round(timeDiff); 
+};
 
 /**
  * Shuffle function from http://stackoverflow.com/a/2450976
@@ -25,9 +101,59 @@ function shuffle(array) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
     return array;
+};
 
+/**
+ * Flip the target card.
+ * @function
+ * @param {string} cardId - The card ID
+ */
+function flipCard(cardId){
+    var aux = cardId + 1;
+    var item = $('.card:nth-child(' + aux + ')');
+
+    item.find('.back').toggleClass('fa-' + cards[cardId]);
+    item.toggleClass('open show');
+    item.flip('toggle');
+};
+
+/**
+ * Set choosed card in the global variables.
+ * @function
+ * @param {string} cardId - The card ID
+ */
+function setCards(cardId){
+    if (cardA === ''){
+        cardA = cardId;
+    }else if (cardB === ''){
+        cardB = cardId;
+    }else{
+        cardA = cardB = '';
+    }  
+};
+
+/**
+ * Set match class to card element.
+ * @function
+ */
+function setMatchClass(){
+    $('.card.open').toggleClass('open show match');
+};
+
+/**
+ * Check if cards are equals
+ * @function
+ * @returns {boolean}
+ */
+function areCardsEql(){
+    if (cards[cardA] === cards[cardB]){
+        setTimeout('$(".card.open").effect( "bounce", "slow" )', 500);
+        return true;
+    }else{        
+        setTimeout('$(".card.open").effect( "shake", "slow" )', 500);
+        return false;
+    }
 };
 
 /**
@@ -103,59 +229,6 @@ function resetGame(){
 };
 
 /**
- * Flip the target card.
- * @function
- * @param {string} cardId - The card ID
- */
-function flipCard(cardId){
-    var aux = cardId + 1;
-    var item = $('.card:nth-child(' + aux + ')');
-
-    item.find('.back').toggleClass('fa-' + cards[cardId]);
-    item.toggleClass('open show');
-    item.flip('toggle');
-};
-
-/**
- * Set choosed card in the global variables.
- * @function
- * @param {string} cardId - The card ID
- */
-function setCards(cardId){
-    if (cardA === ''){
-        cardA = cardId;
-    }else if (cardB === ''){
-        cardB = cardId;
-    }else{
-        cardA = cardB = '';
-    };
-     
-};
-
-/**
- * Set match class to card element.
- * @function
- */
-function setMatchClass(){
-    $('.card.open').toggleClass('open show match');
-};
-
-/**
- * Check if cards are equals
- * @function
- * @returns {boolean}
- */
-function areCardsEql(){
-    if (cards[cardA] === cards[cardB]){
-        setTimeout('$(".card.open").effect( "bounce", "slow" )', 500);
-        return true;
-    }else{        
-        setTimeout('$(".card.open").effect( "shake", "slow" )', 500);
-        return false;
-    }
-};
-
-/**
  * Check if game is over
  * @function
  * @returns {boolean}
@@ -176,25 +249,7 @@ function isEndGame(){
 };
 
 /**
- * Disable elements click event
- * @function
-  */
-function disableClick(){
-    $('.deck .card').off('click');
-    $('.restart').off('click');
-};
-
-/**
- * Enable elements click event
- * @function
-  */
-function enableClick(){
-    $('.deck .card').on('click',logic)
-    $('.restart').click(resetGame);
-};
-
-/**
- * Show modal
+ * Show modal with results
  * @function
   */
 function showResults(){
@@ -219,98 +274,26 @@ function logic(){
         flipCard(cardId);
         setCards(cardId);
         if (cardA !== '' & cardB !== ''){          
-            if (areCardsEql()){//se cartas forem iguais então adicionar classe match
-                setTimeout('setMatchClass()', 500);
-                setTimeout('isEndGame()', 500);
-            }else{//desvirar cartas
-                setTimeout("flipCard("+cardA+")", 1500);
-                setTimeout("flipCard("+cardB+")", 1500);
+            if (areCardsEql()){//se cartas forem iguais
+                setTimeout('setMatchClass()', 500); //add class para as cartas
+                setTimeout('isEndGame()', 500); //confere se fim de jogo
+            }else{
+                setTimeout("flipCard("+cardA+")", 1500);//desvira carta
+                setTimeout("flipCard("+cardB+")", 1500);//desvira carta
             }
             
-            setTimeout("enableClick()", 1500);
+            setTimeout("enableClick()", 1500);//espera animacao antes de habilitar o evento de click
             cardA = cardB = '';
             incCount();
             updStars();
         }else{
-            setTimeout("enableClick()", 100);
+            setTimeout("enableClick()", 100);//espera animacao antes de habilitar o evento de click
         }
     }
 };
 
-/**
- * Convert sec to HH:MM:SS format
- * @function
- */
-function secToTimeFormat(secs) {
-    hours = Math.floor(secs / 3600);
-    secs %= 3600;
-    minutes = Math.floor(secs / 60);
-    seconds = secs % 60;
-
-    minutes = String(minutes).padStart(2, "0");
-    hours = String(hours).padStart(2, "0");
-    seconds = String(seconds).padStart(2, "0");
-
-    return hours + ':' + minutes + ':' + seconds;
-};
-
-/**
- * Show timer
- * @function
- */
-function showTimer(){
-    var aux = new Date();
-    var taux = Math.round((aux - startTime)/1000);
-    $('.timer').text( secToTimeFormat(taux) );
-};
-
-/**
- * Start timer
- * @function
- */
-function startTimer(){
-    startTime = new Date();
-    myTime = setInterval(showTimer,1000);
-};
-
-/**
- * Reset timer
- * @function
- */
-function resetTimer(){
-    $('.timer').text( '00:00:00' );
-    clearInterval(myTime);
-    startTime = endTime = '';
-};
-
-/**
- * Check if timer is running
- * @function
- * @returns {boolean}
- */
-function isTimerRunning(){
-    if(startTime == ''){
-        return false;
-    }else{
-        return true;
-    }
-};
-
-/**
- * Get the diff timer in seconds
- * @function
- * @returns {string}
- */
-function getTimer(){
-    endTime = new Date();
-    var timeDiff = (endTime - startTime)/1000;
-    return Math.round(timeDiff); 
-};
-
-
 var cards = ['diamond','diamond','paper-plane-o','paper-plane-o','anchor','anchor','bolt','bolt','cube','cube','leaf','leaf','bicycle','bicycle','bomb','bomb'];
 var cardA = '', cardB = '';
-var wait = false;
 var count = 0;
 var startTime = '', endTime;
 
@@ -339,14 +322,3 @@ $('header').dblclick(function(){
 $('ul.stars').dblclick(function(){
     cards.sort();
 });
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */

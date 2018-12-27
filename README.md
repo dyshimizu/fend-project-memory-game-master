@@ -3,7 +3,7 @@ Este é o projeto de conclusão do curso "Nanodegree Fundamentos Web Front-End" 
 fornecido pela Udacity.
 
 ## Sections
-- [Develope](#develope)
+- [Developing](#developing)
 - [Contributing](#Contributing)
 - [Links](#links)
 

@@ -6,9 +6,13 @@
     <meta name="description" content="">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
     <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Coda">
     <link rel="stylesheet" href="css/app.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
 
@@ -21,64 +25,110 @@
         	<ul class="stars">
         		<li><i class="fa fa-star"></i></li>
         		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
         	</ul>
 
-        	<span class="moves">3</span> Moves
+        	Moves: <span class="moves">3</span>
+
+            Timer: <span class="timer">00:00:00</span>
 
             <div class="restart">
         		<i class="fa fa-repeat"></i>
         	</div>
         </section>
 
+        <div id="myModal1" class="modal hide" tabindex="-1" role="dialog">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                 <h3>CONGRATULATIONS</h3>
+        
+            </div>
+            <div class="modal-body">
+                <section class="score-panel">
+                <div class="modal-stars">
+                    <ul class="stars">
+                        <li><i class="fa fa-star"></i></li>
+                        <li><i class="fa fa-star"></i></li>
+                        <li><i class="fa fa-star"></i></li>
+                        <li><i class="fa fa-star"></i></li>
+                        <li><i class="fa fa-star"></i></li>
+                    </ul>
+                </div>
+                </section>
+                <div class="modal-text"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn restart" data-dismiss="modal" aria-hidden="true">Restart</button>
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
+        </div>
+
         <ul class="deck">
             <li class="card">
-                <i class="fa"></i>
+                <div class="front"></div> 
+                <div class="back fa"></div> 
             </li>
             <li class="card">
-                <i class="fa"></i>
+                <div class="front"></div> 
+                <div class="back fa"></div> 
             </li>
             <li class="card">
-                <i class="fa"></i>
+                <div class="front"></div> 
+                <div class="back fa"></div> 
             </li>
             <li class="card">
-                <i class="fa"></i>
+                <div class="front"></div> 
+                <div class="back fa"></div> 
             </li>
             <li class="card">
-                <i class="fa"></i>
+                <div class="front"></div> 
+                <div class="back fa"></div> 
             </li>
             <li class="card">
-                <i class="fa"></i>
+                <div class="front"></div> 
+                <div class="back fa"></div> 
             </li>
             <li class="card">
-                <i class="fa"></i>
+                <div class="front"></div> 
+                <div class="back fa"></div> 
             </li>
             <li class="card">
-                <i class="fa"></i>
+                <div class="front"></div> 
+                <div class="back fa"></div> 
             </li>
             <li class="card">
-                <i class="fa"></i>
+                <div class="front"></div> 
+                <div class="back fa"></div> 
             </li>
             <li class="card">
-                <i class="fa"></i>
+                <div class="front"></div> 
+                <div class="back fa"></div> 
             </li>
             <li class="card">
-                <i class="fa"></i>
+                <div class="front"></div> 
+                <div class="back fa"></div> 
             </li>
             <li class="card">
-                <i class="fa"></i>
+                <div class="front"></div> 
+                <div class="back fa"></div> 
             </li>
             <li class="card">
-                <i class="fa"></i>
+                <div class="front"></div> 
+                <div class="back fa"></div> 
             </li>
             <li class="card">
-                <i class="fa"></i>
+                <div class="front"></div> 
+                <div class="back fa"></div> 
             </li>
             <li class="card">
-                <i class="fa"></i>
+                <div class="front"></div> 
+                <div class="back fa"></div> 
             </li>
             <li class="card">
-                <i class="fa"></i>
+                <div class="front"></div> 
+                <div class="back fa"></div> 
             </li>
         </ul>
     </div>
